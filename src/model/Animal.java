@@ -1,16 +1,17 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public abstract class Animal {
     protected int id;
     protected String name;
-    protected LocalDate birthDate;
+    protected Date birthDate;
     protected List<String> commands;
     protected static int serial = 1;
 
-    public Animal(int id, String name, LocalDate birthDate, List<String> commands) {
+    public Animal(int id, String name, Date birthDate, List<String> commands) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
@@ -29,7 +30,7 @@ public abstract class Animal {
         return name;
     }
 
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -54,7 +55,7 @@ public abstract class Animal {
 
     @Override
     public String toString() {
-        return String.format("%-4d%-8s%-8s%-12s%-15s", getId(),
+        return String.format("%-4d%-10s%-8s%-12s%-15s", getId(),
                 getName(),
                 getClass().getSimpleName(),
                 getBirthDate().toString(),
@@ -62,7 +63,7 @@ public abstract class Animal {
 
     }
     public String toShorterString() {
-        return String.format("%-4d%-8s%-8s", getId(),
+        return String.format("%-4d%-10s%-8s", getId(),
                 getName(),
                 getClass().getSimpleName());
     }
