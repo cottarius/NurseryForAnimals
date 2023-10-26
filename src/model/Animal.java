@@ -7,18 +7,29 @@ import java.util.List;
 public abstract class Animal {
     protected int id;
     protected String name;
-    protected Date birthDate;
-    protected List<String> commands;
+    protected LocalDate birthDate;
+    protected String commands;
     protected static int serial = 1;
 
-    public Animal(int id, String name, Date birthDate, List<String> commands) {
+    public Animal(int id, String name, LocalDate birthDate, String commands) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
         this.commands = commands;
     }
 
-    public void setCommands(List<String> commands) {
+    public Animal() {
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setCommands(String commands) {
         this.commands = commands;
     }
 
@@ -30,11 +41,11 @@ public abstract class Animal {
         return name;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public List<String> getCommands() {
+    public String getCommands() {
         return commands;
     }
 //    public void listOfCommands() {

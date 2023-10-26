@@ -1,30 +1,30 @@
 package controller;
 
-import model.Animal;
-import model.Dog;
-import model.Horse;
+import model.*;
 import service.AnimalServiceImpl;
 import service.DataBaseSql;
 import view.View;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Scanner;
 
 public class Controller {
     AnimalServiceImpl animalService;
+    AnimalTypeCreator animalCreator;
     View view;
     DataBaseSql dataBaseSql;
     Scanner in = new Scanner(System.in);
 
-    public Controller(AnimalServiceImpl animalService, View view, DataBaseSql dataBaseSql) {
-        this.animalService = animalService;
+    public Controller(AnimalServiceImpl service, AnimalTypeCreator creator, View view, DataBaseSql dataBaseSql) {
+        this.animalService = service;
+        this.animalCreator = creator;
         this.view = view;
         this.dataBaseSql = dataBaseSql;
     }
 
-    public void start() throws ClassNotFoundException {
+    public Dog start() throws ClassNotFoundException {
 //        Animal dog1 = new Dog(1,
 //                "Fido",
 //                new Date(2020,01,01),
@@ -90,7 +90,23 @@ public class Controller {
                     view.headOfTable();
                     dataBaseSql.getFullData();
                 }
-                case 2 -> dataBaseSql.AddAnimalToDB();
+                case 2 -> {
+                    view.addAnimalMenu();
+                    int number = in.nextInt();
+                    AnimalType type = AnimalType.getAnimalType(number);
+                    Animal animal = animalCreator.FindOutTypeOfAnimal(type);
+                    System.out.print("Введите имя: ");
+                    String name = in.next();
+                    String date = view.addBirthDateMenu();
+                    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+                    LocalDate birthdate = LocalDate.parse(date, dateFormatter);
+
+                    System.out.print("Введите команды через запятую: ");
+                    String commands = in.next();
+                    String insertToSql = String.format("INSERT INTO animals (name, type, birthdate, commands) VALUE " +
+                            "('%s','%s','%s','%s');",name, type, birthdate, commands);
+                    dataBaseSql.AddAnimalToDB(insertToSql);
+                }
                 case 4 -> System.exit(0);
                 default -> System.out.printf("Неверный выбор! введите правильный пункт меню!");
             }

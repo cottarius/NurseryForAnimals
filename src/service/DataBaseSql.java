@@ -14,15 +14,15 @@ public class DataBaseSql {
 
 
 
-    public void AddAnimalToDB() {
+    public void AddAnimalToDB(String str) {
         try {
-            String sqlCommandInsert = "INSERT INTO animals (name, type, birthdate, commands)" +
-                    " VALUE ('Whiskers', 'Cat', '2019-05-15', 'Sit, Pounce')";
+            //String sqlCommandInsert = "INSERT INTO animals (name, type, birthdate, commands)" +
+            //        " VALUE ('Whiskers', 'Cat', '2019-05-15', 'Sit, Pounce')";
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = getConnection()) {
                 System.out.println("Connection to Store DB succesfull!");
                 Statement statement = conn.createStatement();
-                statement.executeUpdate(sqlCommandInsert);
+                statement.executeUpdate(str);
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");

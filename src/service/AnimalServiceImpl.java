@@ -24,7 +24,7 @@ public class AnimalServiceImpl implements AnimalsService, Comparable<Animal>{
         var listOfCommands = list.get(id).getCommands();
         System.out.print("Введите новую команду: ");
         String newCommand = view.inputString();
-        listOfCommands.add(newCommand);
+        listOfCommands += String.format(", %s", newCommand);
         System.out.println();
         System.out.println("Нажмите Enter");
         in.nextLine();
@@ -37,14 +37,8 @@ public class AnimalServiceImpl implements AnimalsService, Comparable<Animal>{
         int id = view.inputNumber() - 1;
         var listOfCommands = list.get(id).getCommands();
         var nameOfAnimal = list.get(id).getName();
-        System.out.printf("%s умеет выполнять следующие команды: ", nameOfAnimal);
-        for (String command : listOfCommands) {
-            if (listOfCommands.indexOf(command) < listOfCommands.size() - 1) {
-                System.out.printf("%s, ", command);
-            } else {
-                System.out.printf("%s", command);
-            }
-        }
+        System.out.printf("%s умеет выполнять следующие команды: %s", nameOfAnimal, listOfCommands);
+
         System.out.println();
         System.out.println("Нажмите Enter");
         in.nextLine();
