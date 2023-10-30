@@ -1,6 +1,5 @@
 package view;
 
-import java.util.Date;
 import java.util.Scanner;
 
 public class View {
@@ -13,8 +12,7 @@ public class View {
         String month = in.next();
         System.out.print("3. Введите день: ");
         String day = in.next();
-        String birthdate = String.format("%s.%s.%s", year, month, day);
-        return birthdate;
+        return String.format("%s.%s.%s", year, month, day);
     }
     public void addAnimalMenu() {
         System.out.print("""
@@ -24,7 +22,7 @@ public class View {
                 4. Лошадь
                 5. Верблюд
                 6. Осёл
-                Выберите тип животного для создания: 
+                Выберите тип животного для создания:
                 """);
     }
     public void headOfTable(){
@@ -34,12 +32,13 @@ public class View {
         System.out.println("Id\t\tName\tType");
     }
     public void menu() {
-        System.out.println("База данных животных\n" +
-                "1. Список всех животных\n" +
-                "2. Добавить животного\n" +
-                "3. Добавление новой команды животного\n" +
-                "4. Выход\n" +
-                "Выберите пункт меню: ");
+        System.out.println("""
+                База данных животных
+                1. Список всех животных
+                2. Добавить животного
+                3. Добавление новой команды животного
+                4. Выход
+                Выберите пункт меню:\s""");
     }
     public int inputNumber() {
         return in.nextInt();

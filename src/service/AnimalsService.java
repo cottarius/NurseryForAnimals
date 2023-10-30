@@ -5,7 +5,9 @@ import model.Animal;
 import java.util.List;
 
 public interface AnimalsService {
-    public void addCommands(List<Animal> list);
-    public void listOfCommands(List<Animal> list);
-    public void getByDate(List<Animal> animalList);
+
+    void addCommands();
+    void createAnimal();
+    public void listOfCommands();
+    public void getByDate();
 }

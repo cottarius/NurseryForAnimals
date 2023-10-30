@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-public abstract class Animal {
+public abstract class Animal implements Comparable<Animal>{
     protected int id;
     protected String name;
     protected LocalDate birthDate;
@@ -23,6 +23,10 @@ public abstract class Animal {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setBirthDate(LocalDate birthDate) {
@@ -66,7 +70,7 @@ public abstract class Animal {
 
     @Override
     public String toString() {
-        return String.format("%-4d%-10s%-8s%-12s%-15s", getId(),
+        return String.format("%-4d%-12s%-8s%-12s%-15s", getId(),
                 getName(),
                 getClass().getSimpleName(),
                 getBirthDate().toString(),
@@ -78,4 +82,9 @@ public abstract class Animal {
                 getName(),
                 getClass().getSimpleName());
     }
+    @Override
+    public int compareTo(Animal animal) {
+        return this.getBirthDate().compareTo(animal.getBirthDate());
+    }
+
 }

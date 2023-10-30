@@ -2,113 +2,43 @@ package controller;
 
 import model.*;
 import service.AnimalServiceImpl;
-import service.DataBaseSql;
+import data.DataProviderSql;
 import view.View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Controller {
     AnimalServiceImpl animalService;
     AnimalTypeCreator animalCreator;
     View view;
-    DataBaseSql dataBaseSql;
+    DataProviderSql dataProviderSql;
     Scanner in = new Scanner(System.in);
 
-    public Controller(AnimalServiceImpl service, AnimalTypeCreator creator, View view, DataBaseSql dataBaseSql) {
-        this.animalService = service;
-        this.animalCreator = creator;
-        this.view = view;
-        this.dataBaseSql = dataBaseSql;
+    public Controller() throws ClassNotFoundException {
+        this.animalService = new AnimalServiceImpl();
+        //this.animalCreator = new AnimalTypeCreator();
+        this.view = new View();
+        this.dataProviderSql = new DataProviderSql();
     }
 
-    public Dog start() throws ClassNotFoundException {
-//        Animal dog1 = new Dog(1,
-//                "Fido",
-//                new Date(2020,01,01),
-//                new ArrayList<>() {{
-//                    add("Sit");
-//                    add("Stay");
-//                    add("Fetch");
-//                }});
-//        Animal dog2 = new Dog(2,
-//                "Buddy",
-//                LocalDate.of(2018, 12,10),
-//                new ArrayList<>() {{
-//                    add("Sit");
-//                    add("Paw");
-//                    add("Bark");
-//                }});
-//        Animal dog3 = new Dog(3,
-//                "Bella",
-//                LocalDate.of(2019, 11,11),
-//                new ArrayList<>() {{
-//                    add("Sit");
-//                    add("Stay");
-//                    add("Roll");
-//                }});
-//
-//        Animal horse1 = new Horse(4,
-//                "Thunder",
-//                LocalDate.of(2015, 07,21),
-//                new ArrayList<>() {{
-//                    add("Trot");
-//                    add("Canter");
-//                    add("Gallop");
-//                }});
-//        Animal horse2 = new Horse(5,
-//                "Storm",
-//                LocalDate.of(2014,05,05),
-//                new ArrayList<>() {{
-//                    add("Trot");
-//                    add("Canter");
-//                }});
-//        Animal horse3 = new Horse(6,
-//                "Blaze",
-//                LocalDate.of(2016,02,29),
-//                new ArrayList<>() {{
-//                    add("Trot");
-//                    add("Jump");
-//                    add("Gallop");
-//                }});
-//
-//        ArrayList<Animal> list = new ArrayList<>();
-//        list.add(dog1);
-//        list.add(dog2);
-//        list.add(dog3);
-//        list.add(horse1);
-//        list.add(horse2);
-//        list.add(horse3);
+    public void start() throws ClassNotFoundException {
         view.menu();
         int stateMenu = 0;
         while (true) {
             stateMenu = view.inputNumber();
             switch (stateMenu) {
                 case 1 -> {
-                    view.headOfTable();
-                    dataBaseSql.getFullData();
+                    //view.headOfTable();
+                    animalService.getList();
                 }
                 case 2 -> {
                     view.addAnimalMenu();
-                    int number = in.nextInt();
-                    AnimalType type = AnimalType.getAnimalType(number);
-                    Animal animal = animalCreator.FindOutTypeOfAnimal(type);
-                    System.out.print("Введите имя: ");
-                    String name = in.next();
-                    String date = view.addBirthDateMenu();
-                    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
-                    LocalDate birthdate = LocalDate.parse(date, dateFormatter);
-
-                    System.out.print("Введите команды через запятую: ");
-                    String commands = in.next();
-                    String insertToSql = String.format("INSERT INTO animals (name, type, birthdate, commands) VALUE " +
-                            "('%s','%s','%s','%s');",name, type, birthdate, commands);
-                    dataBaseSql.AddAnimalToDB(insertToSql);
+                    animalService.createAnimal();
                 }
                 case 4 -> System.exit(0);
-                default -> System.out.printf("Неверный выбор! введите правильный пункт меню!");
+                default -> System.out.print("Неверный выбор! введите правильный пункт меню!");
             }
         }
 //        if (stateMenu == 1) {
