@@ -20,7 +20,7 @@ public class AnimalServiceImpl implements AnimalsService {
 
     public AnimalServiceImpl() {
         this.provider = new DataProviderSql();
-        initStorage();
+        //initStorage();
     }
     private void initStorage() {
         List<Animal> currentList = Collections.EMPTY_LIST;
@@ -39,6 +39,7 @@ public class AnimalServiceImpl implements AnimalsService {
     }
     @Override
     public void createAnimal(){
+        initStorage();
         counter++;
         String inputNumber = in.nextLine();
         int number = Integer.parseInt(inputNumber);
@@ -72,7 +73,9 @@ public class AnimalServiceImpl implements AnimalsService {
         System.out.print("Введите новую команду: ");
         String newCommand = in.nextLine();
         listOfCommands += String.format(", %s", newCommand);
-        String sqlString = "UPDATE animals SET ";
+        String sqlString = String.format("UPDATE animals " +
+                "SET commands=CONCAT(commands, ' %s')" +
+                "WHERE id=%d", newCommand, id + 1);
         provider.save(sqlString);
         System.out.println();
 
@@ -93,6 +96,7 @@ public class AnimalServiceImpl implements AnimalsService {
 
     @Override
     public void getByDate() {
+        initStorage();
         if(animals.isEmpty()) {
             System.out.println("The list is empty!");
         }
@@ -103,6 +107,7 @@ public class AnimalServiceImpl implements AnimalsService {
         }
     }
     public void getList() {
+        initStorage();
         if(animals.isEmpty()) {
             System.out.println("The list is empty!");
         }
@@ -113,6 +118,7 @@ public class AnimalServiceImpl implements AnimalsService {
     }
 
     public void getShortListOfAnimals() {
+        initStorage();
         if(animals.isEmpty()) {
             System.out.println("The list is empty!");
         }
