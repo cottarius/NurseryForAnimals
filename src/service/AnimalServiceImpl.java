@@ -7,6 +7,8 @@ import model.AnimalType;
 import model.AnimalTypeCreator;
 import view.View;
 
+import java.io.Console;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -47,12 +49,12 @@ public class AnimalServiceImpl implements AnimalsService {
         Animal animal = AnimalTypeCreator.FindOutTypeOfAnimal(type);
         animal.setId(counter);
         System.out.print("Введите имя: ");
-        animal.setName(in.next());
+        animal.setName(in.nextLine());
         String date = view.addBirthDateMenu();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.[MM][M].[dd][d]");
         animal.setBirthDate(LocalDate.parse(date, dateFormatter));
         //in.nextLine(); // убирает пустое пространство перед следующим nextLine()
-        System.out.print("Введите команды через запятую: ");
+        System.out.print("Введите команды через пробел: ");
         animal.setCommands(in.nextLine());
         String insertToSql = String.format("INSERT INTO animals (id, name, type, birthdate, commands) VALUE " +
                         "('%s','%s','%s','%s','%s');", animal.getId(),
@@ -83,7 +85,7 @@ public class AnimalServiceImpl implements AnimalsService {
 
     @Override
     public void listOfCommands() {
-        getShortListOfAnimals();
+        initStorage();
         System.out.print("Введите id животного для просмотра команд: ");
         String inputId = in.nextLine();
         int id = Integer.parseInt(inputId) - 1;
@@ -116,17 +118,7 @@ public class AnimalServiceImpl implements AnimalsService {
             System.out.println(animal);
         }
     }
-
-    public void getShortListOfAnimals() {
-        initStorage();
-        if(animals.isEmpty()) {
-            System.out.println("The list is empty!");
-        }
-        view.headOfShortTable();
-        for (Animal animal : animals) {
-            System.out.println(animal.toShorterString());
-        }
-    }
 }
+
 
 

@@ -7,6 +7,7 @@ import view.View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Controller {
@@ -27,20 +28,26 @@ public class Controller {
         view.menu();
         String stateMenu;
         while (true) {
+            System.out.print("Выберите пункт меню: ");
             stateMenu = in.nextLine();
             switch (stateMenu) {
-                case "1" -> {
-                    //view.headOfTable();
-                    animalService.getList();
-                }
+                // Список всех животных
+                case "1" -> animalService.getList();
+                // Добавление животного
                 case "2" -> {
                     view.addAnimalMenu();
                     animalService.createAnimal();
                 }
+                // Список по дате рождения
                 case "3" -> animalService.getByDate();
+                // Добавление команд
                 case "4" -> animalService.addCommands();
-                case "5" -> System.exit(0);
-                default -> System.out.print("Неверный выбор! введите правильный пункт меню!");
+                // Список команд
+                case "5" -> animalService.listOfCommands();
+                // Выход
+                case "6" -> System.exit(0);
+                case "help" -> view.menu();
+                default -> System.out.print("Неверный выбор! введите правильный пункт меню: ");
             }
         }
 //        if (stateMenu == 1) {
