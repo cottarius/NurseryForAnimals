@@ -17,17 +17,16 @@ import java.util.Properties;
 public class DataProviderSql implements DataProvider{
     public void save(String str) {
         try {
-            //String sqlCommandInsert = "INSERT INTO animals (name, type, birthdate, commands)" +
-            //        " VALUE ('Whiskers', 'Cat', '2019-05-15', 'Sit, Pounce')";
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = getConnection()) {
-                System.out.println("Connection to Store DB succesfull!");
+                //System.out.println("Connection to Store DB successful!");
                 Statement statement = conn.createStatement();
                 statement.executeUpdate(str);
+                System.out.println("Запись успешно добавлена!");
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
         }
     }
     public List<Animal> load() {
@@ -36,7 +35,7 @@ public class DataProviderSql implements DataProvider{
             String sqlCommandSelect = "SELECT * FROM animals";
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = getConnection()) {
-                //System.out.println("Connection to Store DB succesfull!");
+                //System.out.println("Connection to Store DB successful!");
                 Statement statement = conn.createStatement();
                 //statement.executeUpdate(sqlCommandInsert);
                 ResultSet resultSet = statement.executeQuery(sqlCommandSelect);
@@ -59,7 +58,7 @@ public class DataProviderSql implements DataProvider{
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
         }
         return animals;
     }

@@ -16,7 +16,7 @@ public class AnimalServiceImpl implements AnimalsService {
     View view = new View();
     private List<Animal> animals;
     private int counter = 0;
-    private DataProvider provider;
+    private final DataProvider provider;
 
     public AnimalServiceImpl() {
         this.provider = new DataProviderSql();
@@ -27,7 +27,7 @@ public class AnimalServiceImpl implements AnimalsService {
         try {
             currentList = provider.load();
         } catch (Exception ex){
-            System.err.println("File loading error. "+ ex);
+            System.err.println("Ошибка загрузки файла. "+ ex);
         }
         animals = new ArrayList<>();
         for (Animal animal : currentList) {
@@ -40,7 +40,8 @@ public class AnimalServiceImpl implements AnimalsService {
     @Override
     public void createAnimal(){
         counter++;
-        int number = in.nextInt();
+        String inputNumber = in.nextLine();
+        int number = Integer.parseInt(inputNumber);
         AnimalType type = AnimalType.getAnimalTypeByNumber(number);
         Animal animal = AnimalTypeCreator.FindOutTypeOfAnimal(type);
         animal.setId(counter);
@@ -49,9 +50,9 @@ public class AnimalServiceImpl implements AnimalsService {
         String date = view.addBirthDateMenu();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         animal.setBirthDate(LocalDate.parse(date, dateFormatter));
-
+        //in.nextLine(); // убирает пустое пространство перед следующим nextLine()
         System.out.print("Введите команды через запятую: ");
-        animal.setCommands(in.next());
+        animal.setCommands(in.nextLine());
         String insertToSql = String.format("INSERT INTO animals (id, name, type, birthdate, commands) VALUE " +
                         "('%s','%s','%s','%s','%s');", animal.getId(),
                 animal.getName(),
@@ -63,16 +64,17 @@ public class AnimalServiceImpl implements AnimalsService {
     }
     @Override
     public void addCommands() {
-        getShortListOfAnimals();
+        getList();
         System.out.print("Введите id животного для добавления команды: ");
-        int id = view.inputNumber() - 1;
+        String inputId = in.nextLine();
+        int id = Integer.parseInt(inputId) - 1;
         var listOfCommands = this.animals.get(id).getCommands();
         System.out.print("Введите новую команду: ");
-        String newCommand = view.inputString();
+        String newCommand = in.nextLine();
         listOfCommands += String.format(", %s", newCommand);
+        String sqlString = "UPDATE animals SET ";
+        provider.save(sqlString);
         System.out.println();
-        System.out.println("Нажмите Enter");
-        in.nextLine();
 
     }
 
@@ -80,14 +82,13 @@ public class AnimalServiceImpl implements AnimalsService {
     public void listOfCommands() {
         getShortListOfAnimals();
         System.out.print("Введите id животного для просмотра команд: ");
-        int id = view.inputNumber() - 1;
+        String inputId = in.nextLine();
+        int id = Integer.parseInt(inputId) - 1;
         var listOfCommands = animals.get(id).getCommands();
         var nameOfAnimal = animals.get(id).getName();
         System.out.printf("%s умеет выполнять следующие команды: %s", nameOfAnimal, listOfCommands);
 
         System.out.println();
-        System.out.println("Нажмите Enter");
-        in.nextLine();
     }
 
     @Override
@@ -100,8 +101,6 @@ public class AnimalServiceImpl implements AnimalsService {
         for (Animal animal : animals) {
             System.out.println(animal);
         }
-        System.out.println("Нажмите Enter");
-        in.nextLine();
     }
     public void getList() {
         if(animals.isEmpty()) {
@@ -111,8 +110,6 @@ public class AnimalServiceImpl implements AnimalsService {
         for (Animal animal : animals) {
             System.out.println(animal);
         }
-        System.out.println("Нажмите Enter");
-        in.nextLine();
     }
 
     public void getShortListOfAnimals() {

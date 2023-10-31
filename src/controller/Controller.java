@@ -25,19 +25,21 @@ public class Controller {
 
     public void start() throws ClassNotFoundException {
         view.menu();
-        int stateMenu = 0;
+        String stateMenu;
         while (true) {
-            stateMenu = view.inputNumber();
+            stateMenu = in.nextLine();
             switch (stateMenu) {
-                case 1 -> {
+                case "1" -> {
                     //view.headOfTable();
                     animalService.getList();
                 }
-                case 2 -> {
+                case "2" -> {
                     view.addAnimalMenu();
                     animalService.createAnimal();
                 }
-                case 4 -> System.exit(0);
+                case "3" -> animalService.getByDate();
+                case "4" -> animalService.addCommands();
+                case "5" -> System.exit(0);
                 default -> System.out.print("Неверный выбор! введите правильный пункт меню!");
             }
         }
