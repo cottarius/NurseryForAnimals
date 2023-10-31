@@ -107,7 +107,6 @@ public class AnimalServiceImpl implements AnimalsService {
         if(animals.isEmpty()) {
             System.out.println("The list is empty!");
         }
-        animals.sort(Comparator.comparing(Animal::getBirthDate));
         view.headOfTable();
         for (Animal animal : animals) {
             System.out.println(animal);
