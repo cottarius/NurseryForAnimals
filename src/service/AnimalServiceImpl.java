@@ -57,7 +57,7 @@ public class AnimalServiceImpl implements AnimalsService {
         System.out.print("Введите команды через пробел: ");
         animal.setCommands(in.nextLine());
         String insertToSql = String.format("INSERT INTO animals (id, name, type, birthdate, commands) VALUE " +
-                        "('%s','%s','%s','%s','%s');", animal.getId(),
+                        "('%s','%s','%s','%s','%s ');", animal.getId(),
                 animal.getName(),
                 animal.getClass().getSimpleName(),
                 animal.getBirthDate(),
@@ -71,12 +71,17 @@ public class AnimalServiceImpl implements AnimalsService {
         System.out.print("Введите id животного для добавления команды: ");
         String inputId = in.nextLine();
         int id = Integer.parseInt(inputId) - 1;
+        while (id >= this.animals.size() || id < 0) {
+            System.out.print("Животного с этим Id нет! Введите еще раз: ");
+            inputId = in.nextLine();
+            id = Integer.parseInt(inputId) - 1;
+        }
         var listOfCommands = this.animals.get(id).getCommands();
         System.out.print("Введите новую команду: ");
         String newCommand = in.nextLine();
-        listOfCommands += String.format(", %s", newCommand);
+        listOfCommands += String.format("%s ", newCommand);
         String sqlString = String.format("UPDATE animals " +
-                "SET commands=CONCAT(commands, ' %s')" +
+                "SET commands=CONCAT(commands, '%s')" +
                 "WHERE id=%d", newCommand, id + 1);
         provider.save(sqlString);
         System.out.println();
@@ -89,6 +94,11 @@ public class AnimalServiceImpl implements AnimalsService {
         System.out.print("Введите id животного для просмотра команд: ");
         String inputId = in.nextLine();
         int id = Integer.parseInt(inputId) - 1;
+        while (id >= this.animals.size() || id < 0) {
+            System.out.print("Животного с этим Id нет! Введите еще раз: ");
+            inputId = in.nextLine();
+            id = Integer.parseInt(inputId) - 1;
+        }
         var listOfCommands = animals.get(id).getCommands();
         var nameOfAnimal = animals.get(id).getName();
         System.out.printf("%s умеет выполнять следующие команды: %s", nameOfAnimal, listOfCommands);
