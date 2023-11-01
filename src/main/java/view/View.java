@@ -6,11 +6,11 @@ public class View {
     Scanner in = new Scanner(System.in);
 
     public String addBirthDateMenu() {
-        System.out.print("1. Введите год: ");
+        System.out.print("1. Введите год (формат 'yyyy'): ");
         String year = in.nextLine();
-        System.out.print("2. Введите месяц: ");
+        System.out.print("2. Введите месяц (формат: 'mm' или 'm'): ");
         String month = in.nextLine();
-        System.out.print("3. Введите день: ");
+        System.out.print("3. Введите день (формат: 'dd' или 'd'): ");
         String day = in.nextLine();
         return String.format("%s.%s.%s", year, month, day);
     }

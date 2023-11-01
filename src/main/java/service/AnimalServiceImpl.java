@@ -9,11 +9,10 @@ import model.AnimalType;
 import model.AnimalTypeCreator;
 import view.View;
 
-import java.io.Console;
-import java.io.IOException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
+
 import java.util.*;
 
 public class AnimalServiceImpl implements AnimalsService {
@@ -48,13 +47,20 @@ public class AnimalServiceImpl implements AnimalsService {
     public void createAnimal(){
         initStorage();
         counter++;
-        String inputNumber = in.nextLine();
-        int number = Integer.parseInt(inputNumber);
-        while (number > 6 || number < 1) {
-            System.out.printf("Типа животных под таким номером нет! Введите правильный номер: ");
+        int number;
+        String inputNumber;
+        // проверка на Integer и на ввод целого числа от 1 до 6
+        while(true) {
             inputNumber = in.nextLine();
-            number = Integer.parseInt(inputNumber);
+            try {
+                number = Integer.parseInt(inputNumber);
+                if (number < 7 && number > 0) {
+                    break;
+                }
+            } catch (NumberFormatException ignored) {}
+            System.out.println("Пожалуйста, введите корректные данные!");
         }
+
         AnimalType type = AnimalType.getAnimalTypeByNumber(number);
         Animal animal = AnimalTypeCreator.FindOutTypeOfAnimal(type);
         animal.setId(counter);
@@ -82,14 +88,7 @@ public class AnimalServiceImpl implements AnimalsService {
     @Override
     public void addCommands() {
         getList();
-        System.out.print("Введите id животного для добавления команды: ");
-        String inputId = in.nextLine();
-        int id = Integer.parseInt(inputId) - 1;
-        while (id >= this.animals.size() || id < 0) {
-            System.out.print("Животного с этим Id нет! Введите еще раз: ");
-            inputId = in.nextLine();
-            id = Integer.parseInt(inputId) - 1;
-        }
+        int id = validateInputIntegerMinusOne();
         var listOfCommands = this.animals.get(id).getCommands();
         System.out.print("Введите новую команду: ");
         String newCommand = in.nextLine();
@@ -99,24 +98,15 @@ public class AnimalServiceImpl implements AnimalsService {
                 "WHERE id=%d", newCommand, id + 1);
         provider.save(sqlString);
         System.out.println();
-
     }
 
     @Override
     public void listOfCommands() {
         initStorage();
-        System.out.print("Введите id животного для просмотра команд: ");
-        String inputId = in.nextLine();
-        int id = Integer.parseInt(inputId) - 1;
-        while (id >= this.animals.size() || id < 0) {
-            System.out.print("Животного с этим Id нет! Введите еще раз: ");
-            inputId = in.nextLine();
-            id = Integer.parseInt(inputId) - 1;
-        }
+        int id = validateInputIntegerMinusOne();
         var listOfCommands = animals.get(id).getCommands();
         var nameOfAnimal = animals.get(id).getName();
         System.out.printf("%s умеет выполнять следующие команды: %s", nameOfAnimal, listOfCommands);
-
         System.out.println();
     }
 
@@ -148,6 +138,22 @@ public class AnimalServiceImpl implements AnimalsService {
         for (Animal animal : animals) {
             System.out.println(animal);
         }
+    }
+    private int validateInputIntegerMinusOne (){
+        System.out.print("Введите id животного: ");
+        String inputId;
+        int id = 0;
+        while (true) {
+            inputId = in.nextLine();
+            try {
+                id = Integer.parseInt(inputId) - 1;
+                if (id < this.animals.size() && id >= 0) {
+                    break;
+                }
+            } catch (NumberFormatException ignored){}
+            System.out.print("Введите корректные данные! ");
+        }
+        return id;
     }
 }
 
