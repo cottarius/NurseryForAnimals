@@ -1,5 +1,7 @@
 package service;
 
+import controller.LocalDateValidator;
+import controller.LocalDateValidatorImpl;
 import data.DataProvider;
 import data.DataProviderSql;
 import model.Animal;
@@ -11,6 +13,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 public class AnimalServiceImpl implements AnimalsService {
@@ -19,9 +22,11 @@ public class AnimalServiceImpl implements AnimalsService {
     private List<Animal> animals;
     private int counter = 0;
     private final DataProvider provider;
+    LocalDateValidator localDateValidator;
 
     public AnimalServiceImpl() {
         this.provider = new DataProviderSql();
+        this.localDateValidator = new LocalDateValidatorImpl(DateTimeFormatter.ofPattern("yyyy.[MM][M].[dd][d]"));
         //initStorage();
     }
     private void initStorage() {
@@ -45,12 +50,21 @@ public class AnimalServiceImpl implements AnimalsService {
         counter++;
         String inputNumber = in.nextLine();
         int number = Integer.parseInt(inputNumber);
+        while (number > 6 || number < 1) {
+            System.out.printf("Типа животных под таким номером нет! Введите правильный номер: ");
+            inputNumber = in.nextLine();
+            number = Integer.parseInt(inputNumber);
+        }
         AnimalType type = AnimalType.getAnimalTypeByNumber(number);
         Animal animal = AnimalTypeCreator.FindOutTypeOfAnimal(type);
         animal.setId(counter);
         System.out.print("Введите имя: ");
         animal.setName(in.nextLine());
         String date = view.addBirthDateMenu();
+        while (!localDateValidator.isValid(date)){
+            System.out.println("Вы ввели неправильный формат даты! Потрудитесь ввести корректные данные!!");
+            date = view.addBirthDateMenu();
+        }
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.[MM][M].[dd][d]");
         animal.setBirthDate(LocalDate.parse(date, dateFormatter));
         //in.nextLine(); // убирает пустое пространство перед следующим nextLine()
