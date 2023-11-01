@@ -108,6 +108,13 @@ public class AnimalServiceImpl implements AnimalsService {
             System.out.println(animal);
         }
     }
+
+    @Override
+    public void totalNumber() {
+        initStorage();
+        System.out.printf("Общее количество животных в питомнике: %d\n\n", this.counter);
+    }
+
     public void getList() {
         initStorage();
         if(animals.isEmpty()) {

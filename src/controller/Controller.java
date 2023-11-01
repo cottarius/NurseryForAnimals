@@ -44,8 +44,10 @@ public class Controller {
                 case "4" -> animalService.addCommands();
                 // Список команд
                 case "5" -> animalService.listOfCommands();
+                //Вывод общего количества животных
+                case "6" -> animalService.totalNumber();
                 // Выход
-                case "6" -> System.exit(0);
+                case "7" -> System.exit(0);
                 case "help" -> view.menu();
                 default -> System.out.print("Неверный выбор! введите правильный пункт меню: ");
             }

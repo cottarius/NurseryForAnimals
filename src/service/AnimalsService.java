@@ -8,6 +8,7 @@ public interface AnimalsService {
 
     void addCommands();
     void createAnimal();
-    public void listOfCommands();
-    public void getByDate();
+    void listOfCommands();
+    void getByDate();
+    void totalNumber();
 }
