@@ -1,6 +1,5 @@
 package model;
 
-import java.rmi.NoSuchObjectException;
 
 public class AnimalTypeCreator {
     public static Animal FindOutTypeOfAnimal (AnimalType animalType) {

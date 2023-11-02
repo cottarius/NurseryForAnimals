@@ -11,8 +11,4 @@ public abstract class Pets extends Animal {
 
     public Pets() {
     }
-    //    @Override
-//    public int compareTo(Animal animal) {
-//        return this.getBirthDate().compareTo(animal.getBirthDate());
-//    }
 }

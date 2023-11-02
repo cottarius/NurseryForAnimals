@@ -73,7 +73,7 @@ public class AnimalServiceImpl implements AnimalsService {
         }
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.[MM][M].[dd][d]");
         animal.setBirthDate(LocalDate.parse(date, dateFormatter));
-        //in.nextLine(); // убирает пустое пространство перед следующим nextLine()
+
         System.out.print("Введите команды через пробел: ");
         animal.setCommands(in.nextLine());
         String insertToSql = String.format("INSERT INTO animals (id, name, type, birthdate, commands) VALUE " +

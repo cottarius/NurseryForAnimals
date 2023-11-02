@@ -1,0 +1,161 @@
+mysql>
+mysql>
+mysql> create database humanfriends
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> ude humanfriends;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ude humanfriends' at line 1
+mysql> use humanfriends;
+Database changed
+mysql> create table dogs (id INT, name VARCHAR(100), type VARCHAR(100), BirthDate DATE, Commands VARCHAR(100));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table cats (id INT, name VARCHAR(100), type VARCHAR(100), BirthDate DATE, Commands VARCHAR(100));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table hamsters (id INT, name VARCHAR(100), type VARCHAR(100), BirthDate DATE, Commands VARCHAR(100));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table horses (id INT, name VARCHAR(100), type VARCHAR(100), BirthDate DATE, Commands VARCHAR(100));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table camels (id INT, name VARCHAR(100), type VARCHAR(100), BirthDate DATE, Commands VARCHAR(100));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> create table donkeys (id INT, name VARCHAR(100), type VARCHAR(100), BirthDate DATE, Commands VARCHAR(100));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into dogs VALUES ((1, 'Fido', 'Dog', '2020-01-01', 'Sit, Stay, Fetch'),
+    -> (2, 'Buddy', 'Dog', '2018-12-10', 'Sit, Paw, Bark'),
+    -> (3, 'Bella', 'Dog', '2019-11-11', 'Sit, Stay, Roll'),
+    -> (1, 'Whiskers', 'Cat', '2019-05-15', 'Sit, Pounce'));
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into dogs VALUES (1, 'Fido', 'Dog', '2020-01-01', 'Sit, Stay, Fetch'), (2, 'Buddy', 'Dog', '2018-12-10', 'Sit, Paw, Bark'), (3, 'Bella', 'Dog',
+'2019-11-11', 'Sit, Stay, Roll'), (1, 'Whiskers', 'Cat', '2019-05-15', 'Sit, Pounce');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into cats VALUES (2, 'Smudge', 'Cat', '2020-02-20', 'Sit, Pounce, Scratch'), (3, 'Oliver', 'Cat', '2020-06
+    '> -30', 'Meow, Scratch, Jump');
+ERROR 1292 (22007): Incorrect date value: '2020-06
+-30' for column 'BirthDate' at row 2
+mysql> insert into cats VALUES (2, 'Smudge', 'Cat', '2020-02-20', 'Sit, Pounce, Scratch'), (3, 'Oliver', 'Cat', '2020-06-30', 'Meow, Scratch, Jump');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into hamsters VALUES (1, 'Hammy', 'Hamster', '2021-03-10', 'Roll, Hide');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into hamsters VALUES (2, 'Peanut', 'Hamster', '2021-08-01', 'Roll, Spin');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into horses VALUES (1, 'Thunder', 'Horse', '2015-07-21', 'Trot, Canter, Gallop');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into horses VALUES (2, 'Storm', 'Horse', '2014-05-05', 'Trot, Canter');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into horses VALUES (3, 'Blaze', 'Horse', '2016-02-29', 'Trot, Jump, Gallop');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into camels VALUES (1, 'Sandy', 'Camel', '2016-11-03', 'Walk, Carry Load');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into camels VALUES (2, 'Dune', 'Camel', '2018-12-12', 'Walk, Sit');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into camels VALUES (3, 'Sahara', 'Camel', '2015-08-14', 'Walk, Run');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into donkeys VALUES (1, 'Eeyore', 'Donkey', '2017-09-18', 'Walk, Carry Load, Bray');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into donkeys VALUES (2, 'Burro', 'Donkey', '2019-01-23', 'Walk, Bray, Kick');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>
+mysql>
+mysql> select * from camels;
++------+--------+-------+------------+------------------+
+| id   | name   | type  | BirthDate  | Commands         |
++------+--------+-------+------------+------------------+
+|    1 | Sandy  | Camel | 2016-11-03 | Walk, Carry Load |
+|    2 | Dune   | Camel | 2018-12-12 | Walk, Sit        |
+|    3 | Sahara | Camel | 2015-08-14 | Walk, Run        |
++------+--------+-------+------------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from camels;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select * from camels;
+Empty set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select name, type, BirthDate, Commands from horses UNION SELECT name, type, BirthDate, Commands from donkeys;
++---------+--------+------------+------------------------+
+| name    | type   | BirthDate  | Commands               |
++---------+--------+------------+------------------------+
+| Thunder | Horse  | 2015-07-21 | Trot, Canter, Gallop   |
+| Storm   | Horse  | 2014-05-05 | Trot, Canter           |
+| Blaze   | Horse  | 2016-02-29 | Trot, Jump, Gallop     |
+| Eeyore  | Donkey | 2017-09-18 | Walk, Carry Load, Bray |
+| Burro   | Donkey | 2019-01-23 | Walk, Bray, Kick       |
++---------+--------+------------+------------------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> create temporary table animals as select * from dogs union select * from cats union select * from hamsters union select * from horses union select * from donkeys;
+Query OK, 13 rows affected (0.00 sec)
+Records: 13  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> create table youngAnimals as select name, type, BirthDate, Commands, TIMESTAMPDIFF(Month, BirthDate, CURDATE()) a
+    -> s Age FROM animals WHERE BirthDate BETWEEN ADDDATE(curdate(), INTERVAL -3 YEAR) AND ADDDATE(CURDATE(), INTERVAL -1 YEAR)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's Age FROM animals WHERE BirthDate BETWEEN ADDDATE(curdate(), INTERVAL -3 YEAR) ' at line 2
+mysql> create table youngAnimals as select name, type, BirthDate, Commands, TIMESTAMPDIFF(Month, BirthDate, CURDATE()) as Age FROM animals WHERE BirthDate BET
+WEEN ADDDATE(curdate(), INTERVAL -3 YEAR) AND ADDDATE(CURDATE(), INTERVAL -1 YEAR);
+Query OK, 2 rows affected (0.10 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> select * from youngAnimals;
++--------+---------+------------+------------+------+
+| name   | type    | BirthDate  | Commands   | Age  |
++--------+---------+------------+------------+------+
+| Hammy  | Hamster | 2021-03-10 | Roll, Hide |   31 |
+| Peanut | Hamster | 2021-08-01 | Roll, Spin |   27 |
++--------+---------+------------+------------+------+
+2 rows in set (0.00 sec)
+
+mysql> create table all_animals as select name, type, BirthDate, Commands from dogs union select name, type, BirthDate, Commands from cats union select name,
+type, BirthDate, Commands from hamsters union select name, type, BirthDate, Commands from horses union select name, type, BirthDate, Commands from donkeys;
+Query OK, 13 rows affected (0.06 sec)
+Records: 13  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> select * from all_animals;
++----------+---------+------------+------------------------+
+| name     | type    | BirthDate  | Commands               |
++----------+---------+------------+------------------------+
+| Fido     | Dog     | 2020-01-01 | Sit, Stay, Fetch       |
+| Buddy    | Dog     | 2018-12-10 | Sit, Paw, Bark         |
+| Bella    | Dog     | 2019-11-11 | Sit, Stay, Roll        |
+| Whiskers | Cat     | 2019-05-15 | Sit, Pounce            |
+| Smudge   | Cat     | 2020-02-20 | Sit, Pounce, Scratch   |
+| Oliver   | Cat     | 2020-06-30 | Meow, Scratch, Jump    |
+| Hammy    | Hamster | 2021-03-10 | Roll, Hide             |
+| Peanut   | Hamster | 2021-08-01 | Roll, Spin             |
+| Thunder  | Horse   | 2015-07-21 | Trot, Canter, Gallop   |
+| Storm    | Horse   | 2014-05-05 | Trot, Canter           |
+| Blaze    | Horse   | 2016-02-29 | Trot, Jump, Gallop     |
+| Eeyore   | Donkey  | 2017-09-18 | Walk, Carry Load, Bray |
+| Burro    | Donkey  | 2019-01-23 | Walk, Bray, Kick       |
++----------+---------+------------+------------------------+
+13 rows in set (0.00 sec)
+
+mysql>

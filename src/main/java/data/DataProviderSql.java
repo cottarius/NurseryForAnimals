@@ -35,9 +35,7 @@ public class DataProviderSql implements DataProvider{
             String sqlCommandSelect = "SELECT * FROM animals";
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = getConnection()) {
-                //System.out.println("Connection to Store DB successful!");
                 Statement statement = conn.createStatement();
-                //statement.executeUpdate(sqlCommandInsert);
                 ResultSet resultSet = statement.executeQuery(sqlCommandSelect);
                 while (resultSet.next()) {
                     int id = resultSet.getInt(1);
@@ -46,7 +44,6 @@ public class DataProviderSql implements DataProvider{
                     LocalDate birthdate = resultSet.getDate(4).toLocalDate();
                     String commands = resultSet.getString(5);
 
-                    //System.out.printf("%-4d%-12s%-8s%-12s%-15s\n", id, name, type, birthdate, commands);
                     AnimalType animalType = AnimalType.CreateTypeOfAnimalFromSql(type);
                     Animal animal = AnimalTypeCreator.FindOutTypeOfAnimal(animalType);
                     animal.setId(id);

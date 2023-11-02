@@ -9,7 +9,6 @@ public abstract class Animal implements Comparable<Animal>{
     protected String name;
     protected LocalDate birthDate;
     protected String commands;
-    protected static int serial = 1;
 
     public Animal(int id, String name, LocalDate birthDate, String commands) {
         this.id = id;
@@ -52,21 +51,6 @@ public abstract class Animal implements Comparable<Animal>{
     public String getCommands() {
         return commands;
     }
-//    public void listOfCommands() {
-//        System.out.printf("%s can execute commands ", name);
-//        for (String command : commands) {
-//            System.out.printf("%s", command);
-//        }
-//    }
-//    public void addCommands(String newCommand) {
-//        commands.add(newCommand);
-//    }
-//    public void getByDate(List<Animals> list) {
-//        if(list.isEmpty()) {
-//            System.out.println("The list is empty!");
-//        }
-//        list.sort(Comparator.comparing(Animals::getBirthDate));
-//    }
 
     @Override
     public String toString() {
@@ -77,11 +61,7 @@ public abstract class Animal implements Comparable<Animal>{
                 getCommands());
 
     }
-    public String toShorterString() {
-        return String.format("%-4d%-10s%-8s", getId(),
-                getName(),
-                getClass().getSimpleName());
-    }
+
     @Override
     public int compareTo(Animal animal) {
         return this.getBirthDate().compareTo(animal.getBirthDate());
