@@ -1,0 +1,203 @@
+cotarius@Father:~$
+cotarius@Father:~$ ls -l
+total 4
+drwxr-xr-x 4 root root 4096 Oct 21 14:05 seminar5
+cotarius@Father:~$ mkdir Animals
+cotarius@Father:~$ cd Animals/
+cotarius@Father:~/Animals$ cat > Pets
+dog
+cats
+hamsters
+cat > PackAnimals
+horses
+camels
+donkeys
+head PackAnimals
+
+^C
+cotarius@Father:~/Animals$ cat > PackAnimals
+horses
+camels
+donkeys
+^C
+cotarius@Father:~/Animals$ cat > Pets
+dog
+cats
+hamsters
+cotarius@Father:~/Animals$ cat > PackAnimals
+horses
+camels
+donkeys
+cotarius@Father:~/Animals$ head PackAnimals
+horses
+camels
+donkeys
+cotarius@Father:~/Animals$ cat Pets PackAnimals > AllAnimals
+cotarius@Father:~/Animals$ cat AllAnimals
+dog
+cats
+hamsters
+horses
+camels
+donkeys
+cotarius@Father:~/Animals$ mv AllAnimals HumanFriends
+cotarius@Father:~/Animals$ ls -l
+total 12
+-rw-r--r-- 1 cotarius cotarius 40 Nov  2 18:19 HumanFriends
+-rw-r--r-- 1 cotarius cotarius 22 Nov  2 18:19 PackAnimals
+-rw-r--r-- 1 cotarius cotarius 18 Nov  2 18:18 Pets
+cotarius@Father:~/Animals$
+cotarius@Father:~/Animals$
+cotarius@Father:~/Animals$
+cotarius@Father:~/Animals$ cd ..
+cotarius@Father:~$ mkdir AnimalsNew
+cotarius@Father:~$ cd Animals
+cotarius@Father:~/Animals$ mv HumanFriends ~/AnimalsNew
+cotarius@Father:~/Animals$ ls -l
+total 8
+-rw-r--r-- 1 cotarius cotarius 22 Nov  2 18:19 PackAnimals
+-rw-r--r-- 1 cotarius cotarius 18 Nov  2 18:18 Pets
+cotarius@Father:~/Animals$ cd ~/AnimalsNew
+cotarius@Father:~/AnimalsNew$ ls -l
+total 4
+-rw-r--r-- 1 cotarius cotarius 40 Nov  2 18:19 HumanFriends
+cotarius@Father:~/AnimalsNew$ cat HumanFriends
+dog
+cats
+hamsters
+horses
+camels
+donkeys
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$ sudo apt update
+[sudo] password for cotarius:
+Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
+Hit:4 https://download.docker.com/linux/ubuntu jammy InRelease
+Get:5 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [109 kB]
+Fetched 338 kB in 1s (301 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+All packages are up to date.
+cotarius@Father:~/AnimalsNew$ apt install mysql-server
+E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?
+cotarius@Father:~/AnimalsNew$ sudo apt install mysql-server
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+mysql-server is already the newest version (8.0.35-0ubuntu0.22.04.1).
+The following packages were automatically installed and are no longer required:
+  bridge-utils dns-root-data dnsmasq-base libmariadb3 mariadb-common ubuntu-fan
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$ sudo wget https://dev.mysql.com/get/mysql-apt-config_0.8.26-1_all.deb
+--2023-11-02 18:21:53--  https://dev.mysql.com/get/mysql-apt-config_0.8.26-1_all.deb
+Resolving dev.mysql.com (dev.mysql.com)... 104.66.124.6, 2a02:2d8:3:9a9::2e31, 2a02:2d8:3:9a5::2e31
+Connecting to dev.mysql.com (dev.mysql.com)|104.66.124.6|:443... connected.
+HTTP request sent, awaiting response... 302 Moved Temporarily
+Location: https://repo.mysql.com//mysql-apt-config_0.8.26-1_all.deb [following]
+--2023-11-02 18:21:54--  https://repo.mysql.com//mysql-apt-config_0.8.26-1_all.deb
+Resolving repo.mysql.com (repo.mysql.com)... 104.81.113.179, 2a02:26f0:d200:880::1d68, 2a02:26f0:d200:8a3::1d68
+Connecting to repo.mysql.com (repo.mysql.com)|104.81.113.179|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 18088 (18K) [application/x-debian-package]
+Saving to: ‘mysql-apt-config_0.8.26-1_all.deb’
+
+mysql-apt-config_0.8.26-1_all.deb       100%[=============================================================================>]  17.66K  --.-KB/s    in 0s
+
+2023-11-02 18:21:55 (417 MB/s) - ‘mysql-apt-config_0.8.26-1_all.deb’ saved [18088/18088]
+
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$ sudo dpkg -i mysql-apt-config_0.8.26-1_all.deb
+Selecting previously unselected package mysql-apt-config.
+(Reading database ... 25174 files and directories currently installed.)
+Preparing to unpack mysql-apt-config_0.8.26-1_all.deb ...
+Unpacking mysql-apt-config (0.8.26-1) ...
+Setting up mysql-apt-config (0.8.26-1) ...
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$ sudo apt-get update
+Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+Hit:3 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Get:4 http://repo.mysql.com/apt/ubuntu jammy InRelease [20.2 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+Get:7 http://repo.mysql.com/apt/ubuntu jammy/mysql-8.0 Sources [963 B]
+Get:8 http://repo.mysql.com/apt/ubuntu jammy/mysql-apt-config amd64 Packages [565 B]
+Get:9 http://repo.mysql.com/apt/ubuntu jammy/mysql-8.0 amd64 Packages [12.6 kB]
+Get:10 http://repo.mysql.com/apt/ubuntu jammy/mysql-tools amd64 Packages [7994 B]
+Fetched 42.4 kB in 1s (41.0 kB/s)
+Reading package lists... Done
+cotarius@Father:~/AnimalsNew$ sudo systemctl start mysql
+cotarius@Father:~/AnimalsNew$ mysql -u root -p
+Enter password:
+ERROR 1698 (28000): Access denied for user 'root'@'localhost'
+cotarius@Father:~/AnimalsNew$ sudo mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.35-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| humanfriends       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> exit
+Bye
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$ wget http://archive.ubuntu.com/ubuntu/pool/main/n/nano/nano_7.2-1_amd64.deb
+--2023-11-02 18:23:35--  http://archive.ubuntu.com/ubuntu/pool/main/n/nano/nano_7.2-1_amd64.deb
+Resolving archive.ubuntu.com (archive.ubuntu.com)... 185.125.190.36, 91.189.91.83, 185.125.190.39, ...
+Connecting to archive.ubuntu.com (archive.ubuntu.com)|185.125.190.36|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 279686 (273K) [application/x-debian-package]
+Saving to: ‘nano_7.2-1_amd64.deb’
+
+nano_7.2-1_amd64.deb                    100%[=============================================================================>] 273.13K   810KB/s    in 0.3s
+
+2023-11-02 18:23:36 (810 KB/s) - ‘nano_7.2-1_amd64.deb’ saved [279686/279686]
+
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$ sudo dpkg -i nano_7.2-1_amd64.deb
+(Reading database ... 25179 files and directories currently installed.)
+Preparing to unpack nano_7.2-1_amd64.deb ...
+Unpacking nano (7.2-1) over (6.2-1) ...
+Setting up nano (7.2-1) ...
+Installing new version of config file /etc/nanorc ...
+Processing triggers for install-info (6.8-4build1) ...
+Processing triggers for man-db (2.10.2-1) ...
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$
+cotarius@Father:~/AnimalsNew$ sudo dpkg -r nano
+(Reading database ... 25179 files and directories currently installed.)
+Removing nano (7.2-1) ...
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in auto mode
+Processing triggers for man-db (2.10.2-1) ...
+Processing triggers for install-info (6.8-4build1) ...
+cotarius@Father:~/AnimalsNew$
