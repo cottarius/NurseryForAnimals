@@ -26,6 +26,7 @@ public class AnimalServiceImpl implements AnimalsService {
     public AnimalServiceImpl() {
         this.provider = new DataProviderSql();
         this.localDateValidator = new LocalDateValidatorImpl(DateTimeFormatter.ofPattern("yyyy.[MM][M].[dd][d]"));
+        initStorage();
         //initStorage();
     }
     private void initStorage() {
@@ -43,23 +44,15 @@ public class AnimalServiceImpl implements AnimalsService {
             }
         }
     }
+
+    /**
+     * Создание нового животного и добавление в БД
+     */
     @Override
     public void createAnimal(){
-        initStorage();
+        //initStorage();
         counter++;
-        int number;
-        String inputNumber;
-        // проверка на Integer и на ввод целого числа от 1 до 6
-        while(true) {
-            inputNumber = in.nextLine();
-            try {
-                number = Integer.parseInt(inputNumber);
-                if (number < 7 && number > 0) {
-                    break;
-                }
-            } catch (NumberFormatException ignored) {}
-            System.out.println("Пожалуйста, введите корректные данные!");
-        }
+        int number = validateInputInteger(7, 0);
 
         AnimalType type = AnimalType.getAnimalTypeByNumber(number);
         Animal animal = AnimalTypeCreator.FindOutTypeOfAnimal(type);
@@ -73,7 +66,7 @@ public class AnimalServiceImpl implements AnimalsService {
         }
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.[MM][M].[dd][d]");
         animal.setBirthDate(LocalDate.parse(date, dateFormatter));
-
+        //in.nextLine(); // убирает пустое пространство перед следующим nextLine()
         System.out.print("Введите команды через пробел: ");
         animal.setCommands(in.nextLine());
         String insertToSql = String.format("INSERT INTO animals (id, name, type, birthdate, commands) VALUE " +
@@ -85,34 +78,45 @@ public class AnimalServiceImpl implements AnimalsService {
         animals.add(animal);
         provider.save(insertToSql);
     }
+
+    /**
+     * Добавление новой команды животному (по Id)
+     */
     @Override
     public void addCommands() {
         getList();
-        int id = validateInputIntegerMinusOne();
-        var listOfCommands = this.animals.get(id).getCommands();
+        int id = validateInputInteger(this.animals.size() + 1, 0) ;
+        var listOfCommands = this.animals.get(id - 1).getCommands();
         System.out.print("Введите новую команду: ");
         String newCommand = in.nextLine();
         listOfCommands += String.format("%s ", newCommand);
+        animals.get(id - 1).setCommands(listOfCommands);
         String sqlString = String.format("UPDATE animals " +
                 "SET commands=CONCAT(commands, '%s')" +
-                "WHERE id=%d", newCommand, id + 1);
+                "WHERE id=%d", newCommand, id);
         provider.save(sqlString);
         System.out.println();
     }
 
+    /**
+     * Список всех команд животного (по Id)
+     */
     @Override
     public void listOfCommands() {
-        initStorage();
-        int id = validateInputIntegerMinusOne();
+        //initStorage();
+        int id = validateInputInteger(this.animals.size() + 1, 0) - 1;
         var listOfCommands = animals.get(id).getCommands();
         var nameOfAnimal = animals.get(id).getName();
         System.out.printf("%s умеет выполнять следующие команды: %s", nameOfAnimal, listOfCommands);
         System.out.println();
     }
 
+    /**
+     * Список всех животных, отсортированный по дате рождения
+     */
     @Override
     public void getByDate() {
-        initStorage();
+        //initStorage();
         if(animals.isEmpty()) {
             System.out.println("The list is empty!");
         }
@@ -123,14 +127,20 @@ public class AnimalServiceImpl implements AnimalsService {
         }
     }
 
+    /**
+     * Показывает общее количество животных в питомнике
+     */
     @Override
     public void totalNumber() {
-        initStorage();
+        //initStorage();
         System.out.printf("Общее количество животных в питомнике: %d\n\n", this.counter);
     }
 
+    /**
+     * Список всех животных. Загружается из БД
+     */
     public void getList() {
-        initStorage();
+        //initStorage();
         if(animals.isEmpty()) {
             System.out.println("The list is empty!");
         }
@@ -139,15 +149,15 @@ public class AnimalServiceImpl implements AnimalsService {
             System.out.println(animal);
         }
     }
-    private int validateInputIntegerMinusOne (){
+    private int validateInputInteger(int firstParam, int secondParam){
         System.out.print("Введите id животного: ");
         String inputId;
-        int id = 0;
+        int id;
         while (true) {
             inputId = in.nextLine();
             try {
-                id = Integer.parseInt(inputId) - 1;
-                if (id < this.animals.size() && id >= 0) {
+                id = Integer.parseInt(inputId);
+                if (id < firstParam && id > secondParam) {
                     break;
                 }
             } catch (NumberFormatException ignored){}
